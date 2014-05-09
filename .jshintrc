@@ -1,0 +1,12 @@
+{
+    "node": true,
+    "couch": true,
+    "browser": true,
+    "devel": true,
+    "debug": true,
+    "strict": true,
+    "asi": true,
+    "globals": {
+        "angular": false
+    }
+}

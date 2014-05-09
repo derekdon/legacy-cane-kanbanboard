@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="kanbanboard" ng-controller="AppCtrl as appCtrl" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{fullPageTitle}}</title>
+    <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="app/common/css/app.css" rel="stylesheet">
+</head>
+<body role="document">
+<ribbon msg="Fork me on GitHub" url="https://github.com/derekdon/cane-kanbanboard"></ribbon>
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="board.detail" ui-sref-active="active">My Kanban Board</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="btn-link" class="dropdown-toggle" data-toggle="dropdown">Board <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="appCtrl.boardData.length"><a ui-sref="board.detail" ui-sref-active="active">View</a></li>
+                        <li ng-hide="appCtrl.boardData.length"><a ui-sref="board.new" ui-sref-active="active">Create New</a></li>
+                        <li ng-show="appCtrl.boardData.length" class="divider"></li>
+                        <li ng-show="appCtrl.boardData.length"><a ui-sref="board.collaborate" ui-sref-active="active">Collaborate</a></li>
+                        <li ng-show="appCtrl.boardData.length" class="divider"></li>
+                        <li ng-show="appCtrl.boardData.length"><a ui-sref="board.reset" ui-sref-active="active">Reset Board</a></li>
+                        <li ng-show="appCtrl.boardData.length"><a ui-sref="board.destroy" ui-sref-active="active">Destroy Board</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="btn-link" class="dropdown-toggle" data-toggle="dropdown">Workflow <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="stage.list" ui-sref-active="active">View Stages</a></li>
+                        <li><a ui-sref="stage.new" ui-sref-active="active">Add Stage</a></li>
+                        <li class="divider"></li>
+                        <li><a ui-sref="stage.reset" ui-sref-active="active">Reset Stages</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="btn-link" class="dropdown-toggle" data-toggle="dropdown">Tickets <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="ticket.new" ui-sref-active="active">Add New</a></li>
+                        <li ng-show="appCtrl.ticketData.length" class="divider"></li>
+                        <li ng-show="appCtrl.ticketData.length" class="dropdown-header">Most Recent</li>
+                        <li ng-show="appCtrl.ticketData.length" ticket-li ng-repeat="ticket in appCtrl.ticketData | orderBy:'-created' | limitTo:3"><a ui-sref="ticket.detail" ui-sref-active="active">{{ticket.title | truncate:20}}</a></li>
+                        <li ng-show="appCtrl.ticketData.length" class="divider"></li>
+                        <li ng-show="appCtrl.ticketData.length"><a ui-sref="ticket.list" ui-sref-active="active">View All</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="btn-link" class="dropdown-toggle" data-toggle="dropdown">Avatars <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="avatar.new" ui-sref-active="active">Add New</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Most Recent</li>
+                        <li avatar-li ng-repeat="avatar in appCtrl.avatars | orderBy:'-created' | limitTo:3"><a ui-sref="avatar.detail" ui-sref-active="active">{{avatar.alias | truncate:20}}</a></li>
+                        <li class="divider"></li>
+                        <li><a ui-sref="avatar.list" ui-sref-active="active">View All</a></li>
+                    </ul>
+                </li>
+                <li><a ui-sref="about" ui-sref-active="active">About</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" ui-view="main" role="main"></div>
+</body>
+
+<script type="text/javascript" src="vendor/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="vendor/angular/angular.js"></script>
+<script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+<script type="text/javascript" src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+<script type="text/javascript" src="app/common/js/config/config.js"></script>
+<script type="text/javascript" src="app/common/js/services/services.js"></script>
+<script type="text/javascript" src="app/common/js/factories/factories.js"></script>
+<script type="text/javascript" src="app/common/js/filters/filters.js"></script>
+<script type="text/javascript" src="app/common/js/directives/directives.js"></script>
+
+<script type="text/javascript" src="app/module/about/about.js"></script>
+<script type="text/javascript" src="app/module/avatar/avatar.js"></script>
+<script type="text/javascript" src="app/module/board/board.js"></script>
+<script type="text/javascript" src="app/module/stage/stage.js"></script>
+<script type="text/javascript" src="app/module/ticket/ticket.js"></script>
+
+<script type="text/javascript" src="vendor/underscore/underscore.js"></script>
+<script type="text/javascript" src="vendor/underscore.string/dist/underscore.string.min.js"></script>
+<script type="text/javascript" src="vendor/momentjs/min/moment.min.js"></script>
+<script type="text/javascript" src="vendor/Sortable/Sortable.min.js"></script>
+
+<script type="text/javascript" src="app/app.js"></script>
+
+</html>

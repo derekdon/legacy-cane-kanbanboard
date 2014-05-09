@@ -1,0 +1,31 @@
+{
+    "name": "cane-kanbanboard-server",
+    "version": "0.0.1",
+    "author": {
+        "name": "Derek Donnelly",
+        "email": "derek@derekdonnelly.com",
+        "url": "http://derekdonnelly.com"
+    },
+    "description": "The backend of the CANE stack kanban board application.",
+    "homepage": "https://github.com/derekdon/cane-kanbanboard",
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:derekdon/cane-kanbanboard.git"
+    },
+    "private": true,
+    "main": "init.js",
+    "dependencies": {
+        "express": "4.x",
+        "couchbase": "~1.2.1",
+        "underscore": "~1.6.0",
+        "cors": "~2.2.0",
+        "shortid": "~2.0.0",
+        "avatars.io": "~0.1.6",
+        "morgan": "~1.0.1",
+        "errorhandler": "~1.0.1"
+    },
+    "licenses": {
+        "type": "MIT",
+        "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+    }
+}

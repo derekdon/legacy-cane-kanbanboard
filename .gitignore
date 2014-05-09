@@ -1,0 +1,10 @@
+.idea/
+.idea_modules/
+*.ipr
+*.iws
+*.iml
+*.log
+
+client/vendor
+server/node_modules
+bin

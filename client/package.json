@@ -1,0 +1,21 @@
+{
+    "name": "cane-kanbanboard",
+    "version": "0.0.1",
+    "author": {
+        "name": "Derek Donnelly",
+        "email": "derek@derekdonnelly.com",
+        "url": "http://derekdonnelly.com"
+    },
+    "description": "A single page kanban board application using Couchbase, AngularJS, NodeJS and ExpressJS... or the 'CANE' stack!",
+    "homepage": "https://github.com/derekdon/cane-kanbanboard",
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:derekdon/cane-kanbanboard.git"
+    },
+    "private": true,
+    "devDependencies": {},
+    "licenses": {
+        "type": "MIT",
+        "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+    }
+}
