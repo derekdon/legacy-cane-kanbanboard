@@ -59,12 +59,12 @@
                 <li class="dropdown">
                     <a class="btn-link" class="dropdown-toggle" data-toggle="dropdown">Avatars <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a ui-sref="avatar.new" ui-sref-active="active">Add New</a></li>
+                        <li><a ui-sref="avatar.list" ui-sref-active="active">View All</a></li>
                         <li class="divider"></li>
                         <li class="dropdown-header">Most Recent</li>
                         <li avatar-li ng-repeat="avatar in appCtrl.avatars | orderBy:'-created' | limitTo:3"><a ui-sref="avatar.detail" ui-sref-active="active">{{avatar.alias | truncate:20}}</a></li>
                         <li class="divider"></li>
-                        <li><a ui-sref="avatar.list" ui-sref-active="active">View All</a></li>
+                        <li><a ui-sref="avatar.new" ui-sref-active="active">Add New</a></li>
                     </ul>
                 </li>
                 <li><a ui-sref="about" ui-sref-active="active">About</a></li>
