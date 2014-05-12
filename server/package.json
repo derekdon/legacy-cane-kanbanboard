@@ -9,8 +9,8 @@
     "description": "The backend of the CANE stack kanban board application.",
     "homepage": "https://github.com/derekdon/cane-kanbanboard",
     "repository": {
-      "type": "git",
-      "url": "git@github.com:derekdon/cane-kanbanboard.git"
+        "type": "git",
+        "url": "git@github.com:derekdon/cane-kanbanboard.git"
     },
     "private": true,
     "main": "init.js",
@@ -27,5 +27,10 @@
     "licenses": {
         "type": "MIT",
         "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.4",
+        "grunt-contrib-nodeunit": "~0.3.3",
+        "grunt-contrib-jshint": "~0.10.0"
     }
 }

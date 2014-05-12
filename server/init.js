@@ -1,5 +1,5 @@
 var appServer = require("./server"),
-    cbDesignDocs = require("./couchbase/design_docs"),
+    cbDesignDocs = require("./module/couchbase/design_docs"),
     cbConfig = {
         host: ["localhost:8091"],
         bucket: "kanbanboard"

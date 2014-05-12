@@ -1,7 +1,7 @@
 var app,
     express = require("express"),
     cb = require("couchbase"),
-    cbUtils = require("./couchbase/utils"),
+    cbUtils = require("./module/couchbase/utils"),
     _ = require("underscore"),
     avatarsIO = require("avatars.io"),
     morgan = require("morgan"),
