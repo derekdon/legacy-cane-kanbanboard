@@ -12,7 +12,7 @@ ticketModule.config(function config($stateProvider) {
                     controller: "TicketCtrl",
                     controllerAs: "ticketCtrl",
                     template: '<h1 class="page-header" ng-show="pageTitle">{{pageTitle}}</h1>' +
-                                            '<div ui-view />'
+                        '<div ui-view />'
                 }
             }
         })
@@ -57,7 +57,8 @@ ticketModule.service("TicketService", function (CBDocService, AvatarService, $q)
             "author": spec.author,
             "created": +moment(),
             "assignee": spec.assignee,
-            "stage": spec.stage
+            "stage": spec.stage,
+            "due": +moment(spec.due)
         };
 
         service.ticketData.push(newTicket);
@@ -112,7 +113,7 @@ ticketModule.service("TicketService", function (CBDocService, AvatarService, $q)
     ]
 });
 
-ticketModule.controller("TicketCtrl", function (TicketService, AvatarService, StageService, Alerter) {
+ticketModule.controller("TicketCtrl", function ($scope, TicketService, AvatarService, StageService, Alerter) {
 
     var ticketCtrl = this;
     ticketCtrl.ticketData = TicketService.ticketData;
@@ -134,6 +135,35 @@ ticketModule.controller("TicketCtrl", function (TicketService, AvatarService, St
     ticketCtrl.alerts = Alerter.alerts;
     ticketCtrl.removeAlert = Alerter.remove;
 
+    // Add form date picker
+    $scope.today = function () {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    // Disable weekend selection
+    $scope.disabled = function (date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    };
+
+    $scope.toggleMin = function () {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+    $scope.initDate = new Date('2016-15-20');
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+
     // Add form
     ticketCtrl.submitAddForm = function (form) {
         var EXPIRES_IN = 1500;
@@ -146,12 +176,14 @@ ticketModule.controller("TicketCtrl", function (TicketService, AvatarService, St
         Alerter.add("Ticket Added: '" + ticketCtrl.addForm.title + "'", Alerter.SUCCESS, EXPIRES_IN, ticketCtrl.resetAddFormData);
     }
     ticketCtrl.resetAddFormData = function () {
+        $scope.today();
         ticketCtrl.addForm = {
             ticketType: ticketCtrl.ticketTypes[0],
             title: "",
             desc: null,
             stage: ticketCtrl.stages[0],
-            assignee: ticketCtrl.avatars[0]
+            assignee: ticketCtrl.avatars[0],
+            due: $scope.dt
         }
     }
     ticketCtrl.resetAddFormData();

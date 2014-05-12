@@ -15,6 +15,7 @@
             <th><a href="" ng-click="ticketCtrl.predicateReverse('author.alias')">Author</a></th>
             <th><a href="" ng-click="ticketCtrl.predicateReverse('created')">Created</a></th>
             <th><a href="" ng-click="ticketCtrl.predicateReverse('assignee.alias')">Assignee/s</a></th>
+            <th><a href="" ng-click="ticketCtrl.predicateReverse('due')">Due Date</a></th>
             <th></th>
         </tr>
         </thead>
@@ -26,6 +27,7 @@
             <td>{{ticket.author | joinProps:"alias"}}</td>
             <td>{{ticket.created | timeAgo | capitalize}}</td>
             <td>{{ticket.assignee | joinProps:"alias"}}</td>
+            <td>{{ticket.due | timeFormat}}</td>
             <td>
                 <button type="button" class="btn btn-default btn-sm" ui-sref="ticket.detail">Edit</button>
             </td>

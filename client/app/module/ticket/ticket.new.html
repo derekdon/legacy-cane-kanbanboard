@@ -1,4 +1,6 @@
-<alert ng-repeat="alert in ticketCtrl.alerts()" type="{{alert.type}}" close="ticketCtrl.removeAlert(alert)">{{alert.msg}}</alert>
+<alert ng-repeat="alert in ticketCtrl.alerts()" type="{{alert.type}}" close="ticketCtrl.removeAlert(alert)">
+    {{alert.msg}}
+</alert>
 <form name="addTicketForm" role="form" novalidate class="form-horizontal">
     <div class="form-group">
         <label for="ticketTypeSelect" class="col-sm-2 control-label">Type</label>
@@ -34,7 +36,8 @@
         <div class="col-sm-10">
             <select ng-model="ticketCtrl.addForm.assignee"
                     ng-options="avatar.alias for avatar in ticketCtrl.avatars" name="assignee" id="assigneeSelect"
-                    class="form-control" multiple required popover="Add more via Avatars" popover-trigger="focus"></select>
+                    class="form-control" multiple required popover="Add more via Avatars"
+                    popover-trigger="focus"></select>
         </div>
     </div>
     <div class="form-group">
@@ -43,6 +46,17 @@
         <div class="col-sm-10">
             <select ng-model="ticketCtrl.addForm.stage" ng-options="stage.title.en for stage in ticketCtrl.stages"
                     name="stage" id="stageSelect" class="form-control" required></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="dueInput" class="col-sm-2 control-label">Due Date</label>
+
+        <div class="col-sm-10">
+            <input type="text" ng-model="ticketCtrl.addForm.due" name="due" id="dueInput" class="form-control" datepicker-popup="{{format}}"
+                   ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'"
+                   datepicker-options="dateOptions" ng-required="true"
+                   close-text="Close" ng-click="opened = true"/>
         </div>
     </div>
     <div class="form-group">

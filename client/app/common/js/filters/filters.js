@@ -12,6 +12,18 @@ commonFilters.filter("timeAgo", function () {
     };
 });
 
+commonFilters.filter("timeFormat", function () {
+    return function (timestamp) {
+        return moment(timestamp).format("dddd, MMMM Do YYYY");
+    };
+});
+
+commonFilters.filter("calendarFormat", function () {
+    return function (timestamp) {
+        return moment(timestamp).calendar();
+    };
+});
+
 commonFilters.filter("capitalize", function () {
     return function (text) {
         return _.str.capitalize(text);
