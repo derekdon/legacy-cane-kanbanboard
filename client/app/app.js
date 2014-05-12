@@ -5,6 +5,7 @@ var kanbanboard = angular.module("kanbanboard", [
     "kanbanboard.common.filters",
     "kanbanboard.common.services",
     "kanbanboard.module.about",
+    "kanbanboard.module.analytics",
     "kanbanboard.module.avatar",
     "kanbanboard.module.board",
     "kanbanboard.module.stage",
