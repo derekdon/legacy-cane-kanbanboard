@@ -1,0 +1,1 @@
+Individual app modules will encapsulate their own unit tests. Will add protractor e2e testing also.
