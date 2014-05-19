@@ -5,8 +5,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-ngmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-less");
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks("grunt-contrib-watch");
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
@@ -14,8 +15,11 @@ module.exports = function (grunt) {
             app: "app",
             test: "test",
             dist: "dist/",
+            css: "app/common/css/",
+            less: "app/common/less/",
             tmp: "dist/.tmp/",
             jsAll: "/**/*.js",
+            lessAll: "/**/*.less",
             jshintrc: "../.jshintrc"
         },
         jshint: {
@@ -46,7 +50,14 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                     "<%= path.dist + pkg.name %>.min.js": ["<%= ngmin.dist.dest %>"]
+                    "<%= path.dist + pkg.name %>.min.js": ["<%= ngmin.dist.dest %>"]
+                }
+            }
+        },
+        less: {
+            styles: {
+                files: {
+                    "<%= path.css %>app.css": ["<%= path.app + path.lessAll %>"]
                 }
             }
         },
@@ -61,10 +72,16 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: ["<%= jshint.files %>"],
-            tasks: ["default"]
+            scripts: {
+                files: ["<%= jshint.files %>"],
+                tasks: ["default"]
+            },
+            less: {
+                files: ["<%= path.app + path.lessAll %>"],
+                tasks: ["less"]
+            }
         }
     });
 
-    grunt.registerTask("default", ["jshint", "concat", "ngmin", "uglify", "clean"]);
+    grunt.registerTask("default", ["jshint", "concat", "ngmin", "uglify", "less", "clean"]);
 };

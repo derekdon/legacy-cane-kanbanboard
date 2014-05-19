@@ -1,0 +1,75 @@
+.rotate (@deg) {
+  -webkit-transform: rotate(@deg);
+  -moz-transform: rotate(@deg);
+  -ms-transform: rotate(@deg);
+  -o-transform: rotate(@deg);
+}
+
+.box-shadow (@x: 5px, @y: 5px, @blur: 5px, @alpha: 0.5) {
+  -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+  box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+}
+
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.opacity (@opacity: 0.5) {
+  -webkit-opacity: @opacity;
+  -moz-opacity: @opacity;
+  opacity: @opacity;
+}
+
+.nav, .pagination, .carousel, .panel-title a {
+  cursor: pointer;
+}
+
+/* For the ticket edit centring... move into modules... */
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+@ribbon-red: #a00;
+@ribbon-text: #fff;
+@ribbon-border: #faa;
+@ribbon-text-shadow: #444;
+
+.ribbon {
+  background-color: @ribbon-red;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  right: -50px;
+  top: 40px;
+  .rotate(45deg);
+  .box-shadow(-4px, 7px, 0px, 0.15);
+  z-index: 1050;
+}
+
+.ribbon a {
+  border: 1px solid @ribbon-border;
+  color: @ribbon-text;
+  display: block;
+  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1px 0;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 5px @ribbon-text-shadow;
+}
+
+/* Adjust the margin and body due to the ribbon */
+.navbar-toggle {
+  margin-right: 6px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.avatar-img {
+  .border-radius(100%)
+}

@@ -11,15 +11,17 @@ var kanbanboard = angular.module("kanbanboard", [
     "kanbanboard.module.stage",
     "kanbanboard.module.ticket",
     "ui.router",
-    "ui.bootstrap"
+    "ui.bootstrap",
+    "xeditable"
 ]);
 
 kanbanboard.config(function appConfig($stateProvider, $urlRouterProvider, HOME) {
     $urlRouterProvider.otherwise(HOME);
 });
 
-kanbanboard.run(function run() {
+kanbanboard.run(function run(editableOptions) {
     console.log("Module dependencies loaded.")
+    editableOptions.theme = "bs3";
 });
 
 kanbanboard.controller("AppCtrl", function ($scope, $location, AvatarService, TicketService, BoardService) {
