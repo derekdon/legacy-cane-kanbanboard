@@ -15,7 +15,8 @@ module.exports = function (grunt) {
             app: "app",
             test: "test",
             dist: "dist/",
-            css: "app/common/css/",
+            distJs: "dist/js/",
+            distCss: "dist/css/",
             less: "app/common/less/",
             tmp: "dist/.tmp/",
             jsAll: "/**/*.js",
@@ -50,14 +51,14 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    "<%= path.dist + pkg.name %>.min.js": ["<%= ngmin.dist.dest %>"]
+                    "<%= path.distJs + pkg.name %>.min.js": ["<%= ngmin.dist.dest %>"]
                 }
             }
         },
         less: {
             styles: {
                 files: {
-                    "<%= path.css %>app.css": ["<%= path.app + path.lessAll %>"]
+                    "<%= path.distCss + pkg.name %>.css": ["<%= path.app + path.lessAll %>"]
                 }
             }
         },
