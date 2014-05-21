@@ -4,13 +4,13 @@
 
 var couchbase = require('couchbase'),
     cbUtils = require("./utils"),
-    kanbanBucket;
+    bucket;
 
 exports.setup = function (config) {
 
     "use strict";
 
-    kanbanBucket = new couchbase.Connection(config, function (e) {
+    bucket = new couchbase.Connection(config, function (e) {
 
         if (e) {
             cbUtils.exitOnConnectionFail(config, e);
@@ -18,7 +18,7 @@ exports.setup = function (config) {
             cbUtils.connectionSuccess(config);
         }
 
-        kanbanBucket.getDesignDoc("board", function (e, ddoc, meta) {
+        bucket.getDesignDoc("board", function (e, ddoc, meta) {
 
             var board_by_id = {
                     map: [ 'function(doc, meta) {',
@@ -35,7 +35,7 @@ exports.setup = function (config) {
 
                 board_design = { views: {by_id: board_by_id} };
 
-                kanbanBucket.setDesignDoc("board", board_design, function (e, res) {
+                bucket.setDesignDoc("board", board_design, function (e, res) {
                     if (e) {
                         console.log("ERROR" + e);
                     } else if (res && res.ok) {
@@ -50,7 +50,7 @@ exports.setup = function (config) {
 
                 ddoc.views.by_id = board_by_id;
 
-                kanbanBucket.setDesignDoc("board", ddoc, function (e, res) {
+                bucket.setDesignDoc("board", ddoc, function (e, res) {
                     if (e) {
                         console.log("ERROR" + e);
                     } else if (res && res.ok) {
@@ -71,7 +71,7 @@ exports.reset = function (config) {
 
     "use strict";
 
-    kanbanBucket = new couchbase.Connection(config, function (e) {
+    bucket = new couchbase.Connection(config, function (e) {
 
         if (e) {
             cbUtils.exitOnConnectionFail(config, e);
@@ -79,7 +79,7 @@ exports.reset = function (config) {
             cbUtils.connectionSuccess(config);
         }
 
-        kanbanBucket.removeDesignDoc("board", function (e) {
+        bucket.removeDesignDoc("board", function (e) {
             if (e) {
                 console.log(e);
             } else {

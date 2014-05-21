@@ -1,4 +1,5 @@
 var boardModule = angular.module("kanbanboard.module.board", [
+    "kanbanboard.common.configuration",
     "ui.router"
 ]);
 
@@ -12,7 +13,7 @@ boardModule.config(function config($stateProvider) {
                     controller: "BoardCtrl",
                     controllerAs: "boardCtrl",
                     template: '<h1 class="page-header" ng-show="pageTitle">{{pageTitle}}</h1>' +
-                                    '<div ui-view />'
+                        '<div ui-view />'
                 }
             }
         })
@@ -50,7 +51,7 @@ boardModule.service("BoardService", function (CBDocService, StageService, $q) {
     service.boardData = [];
 
     service.showBoard = function (id) {
-        return CBDocService.showItem(id, JSONTYPE);
+        return CBDocService.getItem(id, JSONTYPE);
     }
 
     service.showBoardChained = function (id) {
@@ -84,11 +85,11 @@ boardModule.service("BoardService", function (CBDocService, StageService, $q) {
             ]
         };
 
-        service.boardData.push(newBoard);
+        return CBDocService.createItem(newBoard);
     }
 });
 
-boardModule.controller("BoardCtrl", function (BoardService, AvatarService, StageService, Alerter, $state) {
+boardModule.controller("BoardCtrl", function (BoardService, AvatarService, StageService, Alerter, $state, JSON_STATUS) {
 
     var boardCtrl = this;
     boardCtrl.boardData = BoardService.boardData;
@@ -110,7 +111,7 @@ boardModule.controller("BoardCtrl", function (BoardService, AvatarService, Stage
         BoardService.boardData.length = 0;
         StageService.resetStages();
         boardCtrl.imSureToDestroy = false;
-        Alerter.add("Your Kanban Board has been destroyed.", Alerter.INFO, EXPIRES_IN, function() {
+        Alerter.add("Your Kanban Board has been destroyed.", Alerter.INFO, EXPIRES_IN, function () {
             goDetailState();
         });
     };
@@ -119,7 +120,7 @@ boardModule.controller("BoardCtrl", function (BoardService, AvatarService, Stage
     boardCtrl.resetBoard = function () {
         StageService.resetStages();
         boardCtrl.imSureToReset = false;
-        Alerter.add("Your Kanban Board has been reset.", Alerter.INFO, EXPIRES_IN, function() {
+        Alerter.add("Your Kanban Board has been reset.", Alerter.INFO, EXPIRES_IN, function () {
             goDetailState();
         });
     };
@@ -131,11 +132,28 @@ boardModule.controller("BoardCtrl", function (BoardService, AvatarService, Stage
             Alerter.add("Invalid submission, please re-check your entries.", Alerter.DANGER, EXPIRES_IN);
             return;
         }
-        boardCtrl.addBoard(boardCtrl.addForm);
-        Alerter.add("Board Added: '" + boardCtrl.addForm.title + "'", Alerter.SUCCESS, EXPIRES_IN, function() {
-            boardCtrl.resetAddFormData();
-            goDetailState();
-        });
+
+        function addBoardError(data, status) {
+            var msg = "Unable to add board. " + ((data.status == JSON_STATUS.ERROR) ? data.message : "");
+            console.log(msg, status);
+            Alerter.add(msg, Alerter.DANGER, EXPIRES_IN);
+        }
+
+        boardCtrl.addBoard(boardCtrl.addForm)
+            .success(function (data, status, headers, config) {
+                if (data.status == JSON_STATUS.SUCCESS) {
+                    boardCtrl.boardData.push(data.data.board);
+                    Alerter.add("Board Added: '" + boardCtrl.addForm.title + "'", Alerter.SUCCESS, EXPIRES_IN, function () {
+                        boardCtrl.resetAddFormData();
+                        goDetailState();
+                    });
+                } else {
+                    addBoardError(data, status);
+                }
+            })
+            .error(function (data, status, headers, config) {
+                addBoardError(data, status);
+            });
     }
     boardCtrl.resetAddFormData = function () {
         boardCtrl.addForm = {

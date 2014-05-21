@@ -1,12 +1,4 @@
-var shortId = require('shortid');
-
-exports.JSONTYPES = {
-    BOARD: "board",
-    STAGE: "stage",
-    TICKET: "ticket",
-    BRANCH: "branch",
-    AVATAR: "avatar"
-};
+var shortId = require("shortid");
 
 exports.genDocId = function (jsonType) {
     "use strict";

@@ -1,59 +1,28 @@
 var app,
     express = require("express"),
-    cb = require("couchbase"),
-    cbUtils = require("./module/couchbase/utils"),
-    _ = require("underscore"),
-    avatarsIO = require("avatars.io"),
+    cbCRUD = require("./module/couchbase/crud"),
     morgan = require("morgan"),
     errorHandler = require("errorhandler"),
-    cors = require("cors");
+    cors = require("cors"),
+    bodyParser = require("body-parser");
 
 exports.start = function (config) {
 
     "use strict";
 
-    var kanbanBucket,
-        server;
+    var server,
+        JSONTYPES = {
+            BOARD: "board",
+            STAGE: "stage",
+            TICKET: "ticket",
+            BRANCH: "branch",
+            AVATAR: "avatar"
+        };
 
-    kanbanBucket = new cb.Connection(config, function (e) {
-        if (e) {
-            cbUtils.exitOnConnectionFail(config, e);
-        } else {
-            cbUtils.connectionSuccess(config);
-        }
-    });
-
-    function getDocById(req, res, jsonType) {
-        kanbanBucket.get(req.params.id, function (e, result) {
-
-            var doc = result.value,
-                resJson = {},
-                data = {},
-                FIELDS_SUFFIX = "Fields";
-
-            try {
-                if (doc === undefined) {
-                    res.send(404);
-                } else {
-                    doc.id = req.params.id;
-                    data[jsonType] = doc;
-                    data[jsonType + FIELDS_SUFFIX] = _.map(doc, function (val, key) {
-                        return {"key": key, "value": val};
-                    });
-                    resJson.status = "success";
-                    resJson.data = data;
-                    res.json(resJson);
-                }
-            } catch (err) {
-                console.log(err);
-                resJson.status = "error";
-                resJson.data = {message: err.message};
-                res.json(resJson);
-            }
-        });
-    }
+    cbCRUD.connect(config);
 
     app = express();
+    app.use(bodyParser());
     app.use(cors());
     app.set("showStackError", true);
     if (process.env.NODE_ENV === "development") {
@@ -61,24 +30,81 @@ exports.start = function (config) {
     }
 
     // Break each api area up into their own module
-    app.route("/kanban/avatar/show/:id")
+
+    // Boards
+    app.route("/kanban/boards")
         .get(function (req, res, next) {
-            getDocById(req, res, cbUtils.JSONTYPES.AVATAR);
+            cbCRUD.apiNotSupported(req, res);
+        })
+        .post(function (req, res, next) {
+            cbCRUD.createDoc(req, res, JSONTYPES.BOARD);
+        });
+    app.route("/kanban/boards/:id")
+        .get(function (req, res, next) {
+            cbCRUD.getDoc(req, res, JSONTYPES.BOARD);
+        })
+        .put(function (req, res, next) {
+            cbCRUD.updateDoc(req, res, JSONTYPES.BOARD);
+        })
+        .delete(function (req, res, next) {
+            cbCRUD.deleteDoc(req, res, JSONTYPES.BOARD);
         });
 
-    app.route("/kanban/board/show/:id")
+    // Stages
+    app.route("/kanban/stages")
         .get(function (req, res, next) {
-            getDocById(req, res, cbUtils.JSONTYPES.BOARD);
+            cbCRUD.apiNotSupported(req, res);
+        })
+        .post(function (req, res, next) {
+            cbCRUD.createDoc(req, res, JSONTYPES.STAGE);
+        });
+    app.route("/kanban/stages/:id")
+        .get(function (req, res, next) {
+            cbCRUD.getDoc(req, res, JSONTYPES.STAGE);
+        })
+        .put(function (req, res, next) {
+            cbCRUD.updateDoc(req, res, JSONTYPES.STAGE);
+        })
+        .delete(function (req, res, next) {
+            cbCRUD.deleteDoc(req, res, JSONTYPES.STAGE);
         });
 
-    app.route("/kanban/stage/show/:id")
+    // Tickets
+    app.route("/kanban/tickets")
         .get(function (req, res, next) {
-            getDocById(req, res, cbUtils.JSONTYPES.STAGE);
+            cbCRUD.apiNotSupported(req, res);
+        })
+        .post(function (req, res, next) {
+            cbCRUD.createDoc(req, res, JSONTYPES.TICKET);
+        });
+    app.route("/kanban/tickets/:id")
+        .get(function (req, res, next) {
+            cbCRUD.getDoc(req, res, JSONTYPES.TICKET);
+        })
+        .put(function (req, res, next) {
+            cbCRUD.updateDoc(req, res, JSONTYPES.TICKET);
+        })
+        .delete(function (req, res, next) {
+            cbCRUD.deleteDoc(req, res, JSONTYPES.TICKET);
         });
 
-    app.route("/kanban/ticket/show/:id")
+    // Avatars
+    app.route("/kanban/avatars")
         .get(function (req, res, next) {
-            getDocById(req, res, cbUtils.JSONTYPES.TICKET);
+            cbCRUD.apiNotSupported(req, res);
+        })
+        .post(function (req, res, next) {
+            cbCRUD.createDoc(req, res, JSONTYPES.AVATAR);
+        });
+    app.route("/kanban/avatars/:id")
+        .get(function (req, res, next) {
+            cbCRUD.getDoc(req, res, JSONTYPES.AVATAR);
+        })
+        .put(function (req, res, next) {
+            cbCRUD.updateDoc(req, res, JSONTYPES.AVATAR);
+        })
+        .delete(function (req, res, next) {
+            cbCRUD.deleteDoc(req, res, JSONTYPES.AVATAR);
         });
 
     if (process.env.NODE_ENV === "development") {
