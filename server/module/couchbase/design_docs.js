@@ -1,14 +1,14 @@
+'use strict';
+
 /**
  * This sets up the required Couchbase design documents and their views for the application.
  */
 
 var couchbase = require('couchbase'),
-    cbUtils = require("./utils"),
+    cbUtils = require('./utils'),
     bucket;
 
 exports.setup = function (config) {
-
-    "use strict";
 
     bucket = new couchbase.Connection(config, function (e) {
 
@@ -18,9 +18,9 @@ exports.setup = function (config) {
             cbUtils.connectionSuccess(config);
         }
 
-        bucket.getDesignDoc("board", function (e, ddoc, meta) {
+        bucket.getDesignDoc('board', function (e, ddoc) {
 
-            var board_by_id = {
+            var boardById = {
                     map: [ 'function(doc, meta) {',
                                 'if (doc.jsonType && doc.jsonType == "board") { ',
                                     'emit(doc.id, doc);',
@@ -28,39 +28,39 @@ exports.setup = function (config) {
                             '}'
                         ].join('\n')
                 },
-                board_design;
+                boardDesign;
 
             if (e) {
-                console.log("Creating the 'board' design doc");
+                console.log('Creating the "board" design doc');
 
-                board_design = { views: {by_id: board_by_id} };
+                boardDesign = { views: {by_id: boardById} };
 
-                bucket.setDesignDoc("board", board_design, function (e, res) {
+                bucket.setDesignDoc('board', boardDesign, function (e, res) {
                     if (e) {
-                        console.log("ERROR" + e);
+                        console.log('ERROR' + e);
                     } else if (res && res.ok) {
-                        console.log("Updated " + res.id);
+                        console.log('Updated ' + res.id);
                     }
                     cbUtils.exitWithCode(0);
                 });
 
-            } else if (!ddoc.views.hasOwnProperty("by_id")) {
+            } else if (!ddoc.views.hasOwnProperty('by_id')) {
 
-                console.log("Updating the 'board' design doc");
+                console.log('Updating the "board" design doc');
 
-                ddoc.views.by_id = board_by_id;
+                ddoc.views.by_id = boardById;
 
-                bucket.setDesignDoc("board", ddoc, function (e, res) {
+                bucket.setDesignDoc('board', ddoc, function (e, res) {
                     if (e) {
-                        console.log("ERROR" + e);
+                        console.log('ERROR' + e);
                     } else if (res && res.ok) {
-                        console.log("Updated " + res.id);
+                        console.log('Updated ' + res.id);
                     }
                     cbUtils.exitWithCode(0);
                 });
 
             } else {
-                console.log("Couchbase 'board' 'by_id' already setup");
+                console.log('Couchbase "board" "by_id" already setup');
                 cbUtils.exitWithCode(0);
             }
         });
@@ -69,8 +69,6 @@ exports.setup = function (config) {
 
 exports.reset = function (config) {
 
-    "use strict";
-
     bucket = new couchbase.Connection(config, function (e) {
 
         if (e) {
@@ -79,11 +77,11 @@ exports.reset = function (config) {
             cbUtils.connectionSuccess(config);
         }
 
-        bucket.removeDesignDoc("board", function (e) {
+        bucket.removeDesignDoc('board', function (e) {
             if (e) {
                 console.log(e);
             } else {
-                console.log("Couchbase 'board' design doc has been removed");
+                console.log('Couchbase "board" design doc has been removed');
             }
             cbUtils.exitWithCode(0);
         });

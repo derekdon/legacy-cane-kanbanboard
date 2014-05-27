@@ -1,0 +1,12 @@
+<alert ng-repeat="alert in boardCtrl.alerts()" type="{{alert.type}}" close="boardCtrl.removeAlert(alert)">
+    {{alert.msg}}
+</alert>
+<p>
+    If you destroy the board it will destroy everything, including your tickets, custom workflow stages and avatars.
+    Please make sure you want to proceed. If you would rather reset your board, visit <a ui-sref="board.reset">Reset
+    Board</a>.
+</p>
+<div class="form-group">
+    <a href="" ng-click="boardCtrl.destroyBoard()" class="btn btn-danger" role="button" ng-class="boardCtrl.imSureToDestroy ? 'active' : 'disabled'">Destroy Board</a>
+    <input type="checkbox" ng-model="boardCtrl.imSureToDestroy"> Yes I'm Sure!
+</div>

@@ -1,47 +1,46 @@
-module.exports = function (grunt) {
-    "use strict";
+'use strict';
 
-    grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.loadNpmTasks("grunt-contrib-concat");
-    grunt.loadNpmTasks("grunt-ngmin");
-    grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-contrib-less");
+module.exports = function (grunt) {
+
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.initConfig({
-        pkg: grunt.file.readJSON("package.json"),
+        pkg: grunt.file.readJSON('package.json'),
         path: {
-            app: "app",
-            test: "test",
-            dist: "dist/",
-            distJs: "dist/js/",
-            distCss: "dist/css/",
-            less: "app/common/less/",
-            tmp: "dist/.tmp/",
-            jsAll: "/**/*.js",
-            lessAll: "/**/*.less",
-            jshintrc: "../.jshintrc"
+            app: 'app',
+            mainJs: 'app/app.js',
+            test: 'test',
+            dist: 'dist/',
+            distJs: 'dist/js/',
+            distCss: 'dist/css/',
+            less: 'app/common/less/',
+            tmp: 'dist/.tmp/',
+            jsAll: '/**/*.js',
+            lessAll: '/**/*.less',
+            jshintrc: '../.jshintrc'
         },
         jshint: {
-            files: ["<%= path.app + path.jsAll %>", "<%= path.test + path.jsAll %>"],
             options: {
-                jshintrc: "<%= path.jshintrc %>"
-            }
-        },
-        concat: {
-            options: {
-                separator: ";"
+                jshintrc: '<%= path.jshintrc %>'
             },
+            files: ['<%= path.app + path.jsAll %>', '<%= path.test + path.jsAll %>']
+        },
+        browserify: {
             dist: {
-                src: ["<%= path.app + path.jsAll %>"],
-                dest: "<%= path.tmp + pkg.name %>.js"
+                src: ['<%= path.mainJs %>'],
+                dest: '<%= path.tmp + pkg.name %>.browserifed.js'
             }
         },
         ngmin: {
             dist: {
-                src: ["<%= concat.dist.dest %>"],
-                dest: "<%= path.tmp + pkg.name %>.ngmin.js"
+                src: ['<%= browserify.dist.dest %>'],
+                dest: '<%= path.tmp + pkg.name %>.ngmin.js'
             }
         },
         uglify: {
@@ -51,14 +50,14 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    "<%= path.distJs + pkg.name %>.min.js": ["<%= ngmin.dist.dest %>"]
+                    '<%= path.distJs + pkg.name %>.min.js': ['<%= ngmin.dist.dest %>']
                 }
             }
         },
         less: {
             styles: {
                 files: {
-                    "<%= path.distCss + pkg.name %>.css": ["<%= path.app + path.lessAll %>"]
+                    '<%= path.distCss + pkg.name %>.css': ['<%= path.app + path.lessAll %>']
                 }
             }
         },
@@ -67,22 +66,22 @@ module.exports = function (grunt) {
                 files: [
                     {
                         dot: true,
-                        src: ["<%= path.tmp %>"]
+                        src: ['<%= path.tmp %>']
                     }
                 ]
             }
         },
         watch: {
             scripts: {
-                files: ["<%= jshint.files %>"],
-                tasks: ["default"]
+                files: ['<%= jshint.files %>'],
+                tasks: ['default']
             },
             less: {
-                files: ["<%= path.app + path.lessAll %>"],
-                tasks: ["less"]
+                files: ['<%= path.app + path.lessAll %>'],
+                tasks: ['less']
             }
         }
     });
 
-    grunt.registerTask("default", ["jshint", "concat", "ngmin", "uglify", "less", "clean"]);
+    grunt.registerTask('default', ['jshint', 'browserify', 'ngmin', 'uglify', 'less', 'clean']);
 };

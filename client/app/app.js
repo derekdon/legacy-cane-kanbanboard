@@ -1,40 +1,48 @@
-var kanbanboard = angular.module("kanbanboard", [
-    "kanbanboard.common.configuration",
-    "kanbanboard.common.directives",
-    "kanbanboard.common.factories",
-    "kanbanboard.common.filters",
-    "kanbanboard.common.services",
-    "kanbanboard.module.about",
-    "kanbanboard.module.analytics",
-    "kanbanboard.module.avatar",
-    "kanbanboard.module.board",
-    "kanbanboard.module.stage",
-    "kanbanboard.module.ticket",
-    "ui.router",
-    "ui.bootstrap",
-    "xeditable"
-]);
+'use strict';
 
-kanbanboard.config(function appConfig($stateProvider, $urlRouterProvider, HOME) {
-    $urlRouterProvider.otherwise(HOME);
-});
+var $ = require('jquery'),
+    angular = require('angular'),
+    bootstrap = require('bootstrap'),
+    router = require('angular-ui-router'),
+    ngbootstrap = require('angular-bootstrap'),
+    _ = require('underscore'),
+    _str = require('../vendor/underscore.string'),
+    xeditable = require('angular-xeditable');
 
-kanbanboard.run(function run(editableOptions) {
-    console.log("Module dependencies loaded.")
-    editableOptions.theme = "bs3";
-});
+angular.module('kanbanboard', [
+    require('./common/js/config').name,
+    require('./common/js/directives').name,
+    require('./common/js/factories').name,
+    require('./common/js/filters').name,
+    require('./common/js/services').name,
+    require('./module/about').name,
+    require('./module/analytics').name,
+    require('./module/avatar').name,
+    require('./module/board').name,
+    require('./module/stage').name,
+    require('./module/ticket').name,
+    router.name,
+    ngbootstrap.name,
+    xeditable.name
+])
+    .config(function appConfig($stateProvider, $urlRouterProvider, HOME) {
+        $urlRouterProvider.otherwise(HOME);
+    })
+    .run(function run(editableOptions) {
+        console.log('Module dependencies loaded.');
+        editableOptions.theme = 'bs3';
+    })
+    .controller('AppCtrl', function ($scope, $location, AvatarService, TicketService, BoardService) {
 
-kanbanboard.controller("AppCtrl", function ($scope, $location, AvatarService, TicketService, BoardService) {
+        var appCtrl = this;
+        appCtrl.APP_TITLE = 'Kanban Board';
 
-    var appCtrl = this;
-    appCtrl.APP_TITLE = "Kanban Board";
+        appCtrl.avatars = AvatarService.avatars;
+        appCtrl.ticketData = TicketService.ticketData;
+        appCtrl.boardData = BoardService.boardData;
 
-    appCtrl.avatars = AvatarService.avatars;
-    appCtrl.ticketData = TicketService.ticketData;
-    appCtrl.boardData = BoardService.boardData;
-
-    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $scope.pageTitle = angular.isDefined(toState.data) ? toState.data.pageTitle || "" : "";
-        $scope.fullPageTitle = _.str.isBlank($scope.pageTitle) ? appCtrl.APP_TITLE : $scope.pageTitle + " | " + appCtrl.APP_TITLE;
+        $scope.$on('$stateChangeSuccess', function (event, toState) {
+            $scope.pageTitle = angular.isDefined(toState.data) ? toState.data.pageTitle || '' : '';
+            $scope.fullPageTitle = _.str.isBlank($scope.pageTitle) ? appCtrl.APP_TITLE : $scope.pageTitle + ' | ' + appCtrl.APP_TITLE;
+        });
     });
-});

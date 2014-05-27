@@ -1,0 +1,13 @@
+<alert ng-repeat="alert in stageCtrl.alerts()" type="{{alert.type}}" close="stageCtrl.removeAlert(alert)">
+    {{alert.msg}}
+</alert>
+<p>
+    Resetting will revert back to the default Workflow Stages. Any tickets created and assigned to a
+    custom workflow stage will be moved into the default <strong>Backlog</strong> stage. Please make sure you want to
+    proceed.
+</p>
+<div class="form-group">
+    <a href="" ng-click="stageCtrl.resetStages()" class="btn btn-danger" role="button"
+       ng-class="stageCtrl.imSureToReset ? 'active' : 'disabled'">Reset Stages</a>
+    <input type="checkbox" ng-model="stageCtrl.imSureToReset"> Yes I'm Sure!
+</div>

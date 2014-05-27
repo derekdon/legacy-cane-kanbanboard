@@ -1,11 +1,12 @@
-var cb = require("couchbase"),
+'use strict';
+
+var cb = require('couchbase'),
     bucket,
-    cbUtils = require("./utils"),
-    util = require("util"),
-    _ = require("underscore"),
+    cbUtils = require('./utils'),
+    util = require('util'),
     JSON_STATUS = {
-        ERROR: "error",
-        SUCCESS: "success"
+        ERROR: 'error',
+        SUCCESS: 'success'
     };
 
 // Create bucket connection
@@ -18,29 +19,29 @@ exports.connect = function (config) {
             cbUtils.connectionSuccess(config);
         }
     });
-}
+};
 
 // Define helpers
 
 function APIError(statusCode, message) {
     Error.call(this);
     this.statusCode = statusCode;
-    this.message = message || "";
+    this.message = message || '';
 }
 util.inherits(APIError, Error);
 
 function checkDocJsonType(expected, doc) {
     if (doc === undefined) {
-        throw new APIError(400, "doc is undefined.");
+        throw new APIError(400, 'doc is undefined.');
     } else if (!doc.jsonType) {
-        throw new APIError(400, "doc.jsonType does not exist.");
-    } else if (expected != doc.jsonType) {
-        throw new APIError(400, "doc.jsonType was " + doc.jsonType + " when expected " + expected + ".");
+        throw new APIError(400, 'doc.jsonType does not exist.');
+    } else if (expected !== doc.jsonType) {
+        throw new APIError(400, 'doc.jsonType was ' + doc.jsonType + ' when expected ' + expected + '.');
     }
 }
 
 function successResponse(data, res, resJson) {
-    resJson = typeof resJson === "object" ? resJson : {};
+    resJson = typeof resJson === 'object' ? resJson : {};
     resJson.status = JSON_STATUS.SUCCESS;
     resJson.data = data;
     res.json(resJson);
@@ -48,15 +49,15 @@ function successResponse(data, res, resJson) {
 
 function errorResponse(err, res, resJson) {
     console.log(err);
-    resJson = typeof resJson === "object" ? resJson : {};
+    resJson = typeof resJson === 'object' ? resJson : {};
     resJson.status = JSON_STATUS.ERROR;
     resJson.message = err.message;
     res.json(err.statusCode || 500, resJson);
 }
 
 exports.apiNotSupported = function apiNotSupported(req, res) {
-    errorResponse(new APIError(405, "This API does not support this type of request."), res);
-}
+    errorResponse(new APIError(405, 'This API does not support this type of request.'), res);
+};
 
 // Define CRUD Methods
 
@@ -71,7 +72,7 @@ exports.createDoc = function (req, res, jsonType) {
         bucket.add(doc._id, doc, function (err, result) {
             try {
                 if (err) {
-                    throw new APIError(500, "Unable to create document with id " + doc._id + ".");
+                    throw new APIError(500, 'Unable to create document with id ' + doc._id + '.');
                 } else {
                     data[jsonType] = doc;
                     data.cas = result.cas;
@@ -84,7 +85,7 @@ exports.createDoc = function (req, res, jsonType) {
     } catch (err) {
         errorResponse(err, res);
     }
-}
+};
 
 exports.readDoc = function (req, res, jsonType) {
     var id = req.params.id;
@@ -94,7 +95,7 @@ exports.readDoc = function (req, res, jsonType) {
                 data = {};
 
             if (err || doc === undefined) {
-                throw new APIError(404, "Unable to find document with id " + id + ".");
+                throw new APIError(404, 'Unable to find document with id ' + id + '.');
             } else {
                 doc._id = id;
                 data[jsonType] = doc;
@@ -104,7 +105,7 @@ exports.readDoc = function (req, res, jsonType) {
             errorResponse(err, res);
         }
     });
-}
+};
 exports.getDoc = exports.readDoc;
 
 exports.updateDoc = function (req, res, jsonType) {
@@ -120,7 +121,7 @@ exports.updateDoc = function (req, res, jsonType) {
         bucket.set(doc._id, doc, function (err, result) {
             try {
                 if (err) {
-                    throw new APIError(404, "Unable to update document with id " + doc._id + ".");
+                    throw new APIError(404, 'Unable to update document with id ' + doc._id + '.');
                 } else {
                     successResponse({_id: doc._id, jsonType: jsonType, cas: result.cas}, res);
                 }
@@ -131,14 +132,14 @@ exports.updateDoc = function (req, res, jsonType) {
     } catch (err) {
         errorResponse(err, res);
     }
-}
+};
 
 exports.deleteDoc = function (req, res, jsonType) {
     var id = req.params.id;
     bucket.remove(id, function (err, result) {
         try {
             if (err) {
-                throw new APIError(404, "Unable to delete document with id " + id + ".");
+                throw new APIError(404, 'Unable to delete document with id ' + id + '.');
             } else {
                 successResponse({_id: id, jsonType: jsonType, cas: result.cas}, res);
             }

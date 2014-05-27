@@ -1,0 +1,14 @@
+<alert ng-repeat="alert in boardCtrl.alerts()" type="{{alert.type}}" close="boardCtrl.removeAlert(alert)">
+    {{alert.msg}}
+</alert>
+<p>
+    If you reset the board it will revert back to the default workflow stages. Any tickets created and assigned
+    to a custom workflow stage will be moved into the default <strong>Backlog</strong> stage. Please make sure you
+    want to proceed. If you would rather destroy your entire board, custom workflow stages, tickets and
+    avatars, then visit <a ui-sref="board.destroy">Destroy Board.</a>.
+</p>
+<div class="form-group">
+    <a href="" ng-click="boardCtrl.resetBoard()" class="btn btn-danger" role="button"
+       ng-class="boardCtrl.imSureToReset ? 'active' : 'disabled'">Reset Board</a>
+    <input type="checkbox" ng-model="boardCtrl.imSureToReset"> Yes I'm Sure!
+</div>

@@ -1,8 +1,10 @@
-var appServer = require("./server"),
-    cbDesignDocs = require("./module/couchbase/design_docs"),
+'use strict';
+
+var appServer = require('./server'),
+    cbDesignDocs = require('./module/couchbase/design_docs'),
     cbConfig = {
-        host: ["localhost:8091"],
-        bucket: "kanbanboard"
+        host: ['localhost:8091'],
+        bucket: 'kanbanboard'
     },
     argv;
 

@@ -1,25 +1,26 @@
-module.exports = function (grunt) {
-    "use strict";
+'use strict';
 
-    grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.loadNpmTasks("grunt-contrib-nodeunit");
-    grunt.loadNpmTasks("grunt-contrib-watch");
+module.exports = function (grunt) {
+
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.initConfig({
-        pkg: grunt.file.readJSON("package.json"),
+        pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            files: ["init.js", "server.js", "Gruntfile.js", "module/**/*.js", "test/**/*.js"],
+            files: ['init.js', 'server.js', 'Gruntfile.js', 'module/**/*.js', 'test/**/*.js'],
             options: {
-                jshintrc: "../.jshintrc"
+                jshintrc: '../.jshintrc'
             }
         },
-        nodeunit: ["test/**/*.js"],
+        nodeunit: ['test/**/*.js'],
         watch: {
-            files: ["<%= jshint.files %>"],
-            tasks: ["jshint", "nodeunit"]
+            files: ['<%= jshint.files %>'],
+            tasks: ['jshint', 'nodeunit']
         }
     });
 
-    grunt.registerTask("default", ["jshint", "nodeunit"]);
-    grunt.registerTask("test", ["jshint", "nodeunit"]);
+    grunt.registerTask('default', ['jshint', 'nodeunit']);
+    grunt.registerTask('test', ['jshint', 'nodeunit']);
 };

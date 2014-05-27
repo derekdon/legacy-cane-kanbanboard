@@ -1,0 +1,36 @@
+<alert ng-repeat="alert in boardCtrl.alerts()" type="{{alert.type}}" close="boardCtrl.removeAlert(alert)">{{alert.msg}}</alert>
+<form name="addBoardForm" role="form" novalidate class="form-horizontal">
+    <div class="form-group">
+        <label for="titleInput" class="col-sm-2 control-label">Title</label>
+
+        <div class="col-sm-10">
+                <span class="label label-danger"
+                      ng-show="boardCtrl.addForm.submitted && addBoardForm.title.$error.required">Required!</span>
+            <input type="text" ng-model="boardCtrl.addForm.title" name="title" id="titleInput" class="form-control"
+                   placeholder="Title" required autofocus>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="descTextArea" class="col-sm-2 control-label">Description</label>
+
+        <div class="col-sm-10">
+            <textarea ng-model="boardCtrl.addForm.desc" name="desc" id="descTextArea" class="form-control"
+                      placeholder="Description"
+                      rows="3"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ownerSelect" class="col-sm-2 control-label">Owner</label>
+
+        <div class="col-sm-10">
+            <select ng-model="boardCtrl.addForm.owner"
+                    ng-options="avatar.alias for avatar in boardCtrl.avatars" name="owner" id="ownerSelect"
+                    class="form-control" required popover="Add more via Avatars" popover-trigger="focus"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" ng-click="boardCtrl.submitAddForm(addBoardForm)" class="btn btn-primary">Create Board</button>
+        </div>
+    </div>
+</form>
