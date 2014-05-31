@@ -1,6 +1,6 @@
 'use strict';
 
-exports = angular.module('kanbanboard.common.factories', [])
+module.exports = angular.module('kanbanboard.common.factories', [])
     .factory('Alerter', function ($timeout) {
 
         var Alerter = {},

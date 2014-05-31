@@ -1,7 +1,7 @@
 'use strict';
 
-exports = angular.module('kanbanboard.module.analytics', [
-        require('angular-ui-router').name
+module.exports = angular.module('kanbanboard.module.analytics', [
+        'ui.router'
     ])
     .config(function config($stateProvider) {
         $stateProvider

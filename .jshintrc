@@ -1,4 +1,5 @@
 {
+    "devel": true,
     "node": true,
     "browser": true,
     "esnext": true,
@@ -19,7 +20,9 @@
     "smarttabs": true,
     "globals": {
         "$": false,
+        "jQuery": false,
         "angular": false,
+        "Sortable": false,
         "browser": false,
         "repeater": false,
         "element": false,

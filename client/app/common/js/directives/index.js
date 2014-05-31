@@ -1,6 +1,6 @@
 'use strict';
 
-exports = angular.module('kanbanboard.common.directives', [])
+module.exports = angular.module('kanbanboard.common.directives', [])
     .directive('ribbon', function () {
         return {
             restrict: 'E',

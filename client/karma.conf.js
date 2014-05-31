@@ -1,16 +1,18 @@
 'use strict';
 
+var pkg = require('./package.json');
+
 module.exports = function (config) {
     config.set({
         basePath: '',
         frameworks: ['jasmine'],
         files: [
-            'vendor/angular/angular.js',
-            'vendor/angular-ui-router/release/angular-ui-router.js',
-            'vendor/angular-mocks/angular-mocks.js',
-            'vendor/underscore/underscore.js',
-            'vendor/underscore.string/dist/underscore.string.min.js',
-            'vendor/momentjs/min/moment.min.js',
+            './node_modules/angular/lib/angular.min.js',
+            './node_modules/angular-ui-router/release/angular-ui-router.min.js',
+            pkg.browser.ngMocks,
+            './node_modules/underscore/underscore-min.js',
+            './node_modules/underscore.string/dist/underscore.string.min.js',
+            './node_modules/moment/min/moment.min.js',
             'app/**/*.js',
             'test/unit/**/*.js'
         ],

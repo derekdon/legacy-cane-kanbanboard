@@ -1,9 +1,9 @@
 'use strict';
 
-var moment = require('momentjs');
+var moment = require('moment');
 
-exports = angular.module('kanbanboard.module.avatar', [
-        require('angular-ui-router').name
+module.exports = angular.module('kanbanboard.module.avatar', [
+        'ui.router'
     ])
     .config(function config($stateProvider) {
         $stateProvider

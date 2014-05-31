@@ -1,29 +1,22 @@
 'use strict';
 
-var $ = require('jquery'),
-    angular = require('angular'),
-    bootstrap = require('bootstrap'),
-    router = require('angular-ui-router'),
-    ngbootstrap = require('angular-bootstrap'),
-    _ = require('underscore'),
-    _str = require('../vendor/underscore.string'),
-    xeditable = require('angular-xeditable');
+var _ = require('underscore');
 
 angular.module('kanbanboard', [
-    require('./common/js/config').name,
-    require('./common/js/directives').name,
-    require('./common/js/factories').name,
-    require('./common/js/filters').name,
-    require('./common/js/services').name,
-    require('./module/about').name,
-    require('./module/analytics').name,
-    require('./module/avatar').name,
-    require('./module/board').name,
-    require('./module/stage').name,
-    require('./module/ticket').name,
-    router.name,
-    ngbootstrap.name,
-    xeditable.name
+    'ui.router',
+    'ui.bootstrap',
+    'xeditable',
+    require('common/js/config').name,
+    require('common/js/directives').name,
+    require('common/js/factories').name,
+    require('common/js/filters').name,
+    require('common/js/services').name,
+    require('module/about').name,
+    require('module/analytics').name,
+    require('module/avatar').name,
+    require('module/board').name,
+    require('module/stage').name,
+    require('module/ticket').name
 ])
     .config(function appConfig($stateProvider, $urlRouterProvider, HOME) {
         $urlRouterProvider.otherwise(HOME);

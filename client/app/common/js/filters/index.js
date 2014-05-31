@@ -1,9 +1,9 @@
 'use strict';
 
-var moment = require('momentjs'),
+var moment = require('moment'),
     _ = require('underscore');
 
-exports = angular.module('kanbanboard.common.filters', [])
+module.exports = angular.module('kanbanboard.common.filters', [])
     .filter('truncate', function () {
         return function (text, length, chars) {
             return _.str.truncate(text, length, chars);

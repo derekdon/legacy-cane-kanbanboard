@@ -1,7 +1,7 @@
 'use strict';
 
-exports = angular.module('kanbanboard.module.about', [
-        require('angular-ui-router').name
+module.exports = angular.module('kanbanboard.module.about', [
+        'ui.router'
     ])
     .config(function config($stateProvider) {
         $stateProvider
@@ -16,5 +16,6 @@ exports = angular.module('kanbanboard.module.about', [
                 }
             });
     })
-    .controller('AboutCtrl', function () {
+    .controller('AboutCtrl', function ($scope, VERSION) {
+        $scope.VERSION = VERSION;
     });

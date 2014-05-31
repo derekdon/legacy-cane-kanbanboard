@@ -2,8 +2,8 @@
 
 var _ = require('underscore');
 
-exports = angular.module('kanbanboard.common.services', [
-        require('../config').name
+module.exports = angular.module('kanbanboard.common.services', [
+        require('common/js/config').name
     ])
     .service('CBDocService', function ($http, API) {
         var service = this,

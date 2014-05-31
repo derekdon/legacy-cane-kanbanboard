@@ -14,39 +14,40 @@
     },
     "private": true,
     "main": "./app/app.js",
-    "devDependencies": {
-        "grunt": "~0.4.4",
-        "grunt-contrib-jshint": "~0.10.0",
-        "grunt-ngmin": "0.0.3",
-        "grunt-contrib-uglify": "~0.4.0",
-        "grunt-contrib-watch": "~0.6.1",
-        "grunt-contrib-clean": "~0.5.0",
-        "grunt-contrib-less": "~0.11.0",
-        "grunt-protractor-runner": "~0.2.4",
-        "grunt-browserify": "~2.1.0",
-        "debowerify": "~0.7.1",
-        "browserify-shim": "~3.5.0"
-    },
     "licenses": {
         "type": "MIT",
         "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
     },
+    "devDependencies": {
+        "grunt": "latest",
+        "grunt-contrib-jshint": "latest",
+        "grunt-contrib-concat": "latest",
+        "grunt-ngmin": "latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-watch": "latest",
+        "grunt-contrib-clean": "latest",
+        "grunt-contrib-less": "latest",
+        "grunt-protractor-runner": "latest",
+        "grunt-browserify": "latest",
+        "browserify": "latest",
+        "browserify-shim": "latest",
+        "browserify-ngmin": "latest",
+        "uglifyify": "latest"
+    },
+    "dependencies": {
+        "underscore": "latest",
+        "underscore.string": "latest",
+        "jquery": "latest",
+        "angular": "latest",
+        "angular-ui-router": "latest",
+        "moment": "latest"
+    },
     "browser": {
-        "jquery": "./vendor/jquery/dist/jquery.min.js",
-        "bootstrap": "./vendor/bootstrap/dist/js/bootstrap.min.js",
-        "underscore.string": "./vendor/underscore.string/dist/underscore.string.min.js"
+        "twitterBootstrap": "./vendor/bootstrap/dist/js/bootstrap.min.js",
+        "ngBootstrap": "./vendor/angular-bootstrap/ui-bootstrap-tpls.min.js",
+        "sortable": "./vendor/Sortable/Sortable.min.js",
+        "xeditable": "./vendor/angular-xeditable/dist/js/xeditable.min.js",
+        "ngMocks": "./vendor/angular-mocks/angular-mocks.js"
     },
-    "browserify-shim": {
-        "jquery": "$",
-        "bootstrap": {
-            "depends": ["jquery:$"]
-        },
-        "underscore.string": {
-            "exports": "_str",
-            "depends": [ "underscore" ]
-        }
-    },
-    "browserify": {
-        "transform": ["browserify-shim", "debowerify"]
-    }
+    "browserify-shim": "./shims.js"
 }

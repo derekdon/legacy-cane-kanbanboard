@@ -1,13 +1,13 @@
 'use strict';
 
-var moment = require('momentjs'),
+var moment = require('moment'),
     _ = require('underscore');
 
-exports = angular.module('kanbanboard.module.board', [
-        require('../../common/js/config').name,
-        require('../../common/js/factories').name,
-        require('../../common/js/services').name,
-        require('angular-ui-router').name
+module.exports = angular.module('kanbanboard.module.board', [
+        require('common/js/config').name,
+        require('common/js/factories').name,
+        require('common/js/services').name,
+        'ui.router'
     ])
     .config(function config($stateProvider) {
         $stateProvider

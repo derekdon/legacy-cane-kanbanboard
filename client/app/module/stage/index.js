@@ -1,10 +1,8 @@
 'use strict';
 
-var Sortable = require('Sortable');
-
-exports = angular.module('kanbanboard.module.stage', [
-        require('../../common/js/factories').name,
-        require('angular-ui-router').name
+module.exports = angular.module('kanbanboard.module.stage', [
+        require('common/js/factories').name,
+        'ui.router'
     ])
     .config(function config($stateProvider) {
         $stateProvider
@@ -233,7 +231,7 @@ exports = angular.module('kanbanboard.module.stage', [
     })
     .directive('stageTableRows', function () {
         return function (scope, element) {
-            var tbody = element.context;
+            var tbody = element[0];
             scope.stageCtrl.sortable = new Sortable(tbody, {
                 group: 'stages',
                 draggable: 'tr',
@@ -262,7 +260,7 @@ exports = angular.module('kanbanboard.module.stage', [
     .directive('sortableRow', function () {
         return function (scope, element) {
 
-            var tr = element.context;
+            var tr = element[0];
             tr.style.cursor = 'move';
 
             function captureStartIndex() {

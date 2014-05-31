@@ -15,25 +15,25 @@
     "private": true,
     "main": "init.js",
     "dependencies": {
-        "express": "4.x",
-        "couchbase": "~1.2.1",
-        "underscore": "~1.6.0",
-        "cors": "~2.2.0",
-        "shortid": "~2.0.0",
-        "avatars.io": "~0.1.6",
-        "morgan": "~1.0.1",
-        "errorhandler": "~1.0.1",
-        "body-parser": "~1.2.0",
-        "util": "~0.10.3"
+        "express": "latest",
+        "couchbase": "latest",
+        "underscore": "latest",
+        "cors": "latest",
+        "shortid": "latest",
+        "avatars.io": "latest",
+        "morgan": "latest",
+        "errorhandler": "latest",
+        "body-parser": "latest",
+        "util": "latest"
     },
     "licenses": {
         "type": "MIT",
         "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
     },
     "devDependencies": {
-        "grunt": "~0.4.4",
-        "grunt-contrib-nodeunit": "~0.3.3",
-        "grunt-contrib-jshint": "~0.10.0",
-        "grunt-contrib-watch": "~0.6.1"
+        "grunt": "latest",
+        "grunt-contrib-nodeunit": "latest",
+        "grunt-contrib-jshint": "latest",
+        "grunt-contrib-watch": "latest"
     }
 }
