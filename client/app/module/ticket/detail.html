@@ -1,1 +1,18 @@
-
+<h1 id="title">{{ticketCtrl.selectedTicketCopy.title}}</h1>
+<dl class="dl-horizontal">
+    <dt>Title</dt>
+    <dd><a href="#" editable-text="ticketCtrl.selectedTicketCopy.title">{{ ticketCtrl.selectedTicketCopy.title || "empty" }}</a></dd>
+    <dt>Description</dt>
+    <dd>{{ticketCtrl.selectedTicketCopy.desc}}</dd>
+    <dt>Author</dt>
+    <dd>{{ticketCtrl.selectedTicketCopy.author}}</dd>
+    <dt>Created</dt>
+    <dd>{{ticketCtrl.selectedTicketCopy.created}}</dd>
+    <dt>Assignee</dt>
+    <dd>{{ticketCtrl.selectedTicketCopy.assignee}}</dd>
+    <dt>Stage</dt>
+    <dd>{{ticketCtrl.selectedTicketCopy.stage}}</dd>
+    <dt>Due</dt>
+    <dd><a href="#" editable-date="ticketCtrl.selectedTicketCopy.due">{{ ticketCtrl.selectedTicketCopy.due || 'empty' }}</a>
+    </dd>
+</dl>

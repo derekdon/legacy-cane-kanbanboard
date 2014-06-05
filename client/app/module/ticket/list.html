@@ -29,7 +29,7 @@
             <td>{{ticket.assignee | joinProps:"alias"}}</td>
             <td>{{ticket.due | timeFormat}}</td>
             <td>
-                <button type="button" class="btn btn-default btn-sm" ui-sref="ticket.detail">Edit</button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="ticketCtrl.selectTicket(ticket)">Edit</button>
             </td>
         </tr>
         </tbody>
